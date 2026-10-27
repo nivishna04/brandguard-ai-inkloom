@@ -1,1 +1,107 @@
-
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BrandGuard AI — review content before it goes live</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f1730;--ink2:#46506b;--ground:#e8ebf3;--paper:#fff;--line:#d3d9e6;--ultra:#3446f0;--ultra-d:#2433c4;--hi:#d92d4b;--hib:#fde3e8;--md:#c77700;--mdb:#ffefc7;--lo:#13795b;--lob:#d6f2e6;--sans:"Manrope",system-ui,sans-serif;--serif:"Newsreader",Georgia,serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:15px/1.55 var(--sans);color:var(--ink);background:var(--ground);padding-bottom:96px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.top{background:var(--ink);color:#fff;display:flex;align-items:center;gap:28px;padding:14px 28px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;letter-spacing:-.01em}
+.logo{width:26px;height:26px;border-radius:7px;background:var(--ultra);position:relative}.logo:after{content:"";position:absolute;inset:7px 6px 6px 8px;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg) scale(.8)}
+.track{display:flex;gap:6px;flex:1;min-width:280px;max-width:560px}
+.track div{flex:1;font-size:12.5px;color:#8f9bbb;border-top:3px solid #2a3558;padding-top:6px;font-weight:600}
+.track div.on{color:#fff;border-color:var(--ultra)}.track div.done{color:#c9d2ea;border-color:#7d8cf5}.track div.bad{color:#fff;border-color:var(--hi)}
+.roles{margin-left:auto;display:flex;background:#1b2547;border-radius:10px;padding:3px}
+.roles button{border:0;background:none;color:#b4bfdc;padding:7px 14px;border-radius:8px;font:600 13px var(--sans);cursor:pointer}
+.roles button.on{background:#fff;color:var(--ink)}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 28px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:24px;align-items:start}
+@media(max-width:900px){.wrap{grid-template-columns:1fr;padding:16px}.top{padding:12px 16px}}
+.lead h1{font:500 30px/1.2 var(--serif);margin:0 0 6px;letter-spacing:-.01em}.lead p{margin:0;color:var(--ink2);max-width:60ch}
+.sheet{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 0 #fff inset,0 12px 30px -18px rgba(15,23,48,.35);overflow:hidden}
+.sheet-h{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.sheet-h b{font-size:14px}.pill{font-size:12.5px;font-weight:700;padding:3px 11px;border-radius:99px;background:#e6e9f7;color:var(--ultra-d)}
+.pill.Approved{background:var(--lob);color:var(--lo)}.pill.Rejected,.pill.Incomplete{background:var(--hib);color:var(--hi)}.pill.Changes{background:var(--mdb);color:var(--md)}
+.sp{flex:1}
+textarea,.doc{width:100%;min-height:230px;border:0;padding:22px 24px;font:400 20px/1.7 var(--serif);color:var(--ink);background:transparent;resize:vertical;display:block}
+.doc{white-space:pre-wrap}textarea:focus{outline:none;background:#fafbff}
+mark{border-radius:4px;padding:1px 3px;cursor:pointer;color:inherit;text-decoration:underline wavy;text-underline-offset:4px;transition:background .15s}
+mark.high{background:var(--hib);text-decoration-color:var(--hi)}mark.medium{background:var(--mdb);text-decoration-color:var(--md)}mark.low{background:var(--lob);text-decoration-color:var(--lo)}
+mark:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--ultra);outline-offset:2px}
+.bar{display:flex;gap:10px;padding:12px 18px;border-top:1px solid var(--line);background:#f7f8fc;flex-wrap:wrap;align-items:center}
+.btn{font:700 14px var(--sans);border-radius:9px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink);transition:transform .1s}
+.btn:active{transform:translateY(1px)}.btn.pri{background:var(--ultra);border-color:var(--ultra);color:#fff}.btn.pri:hover{background:var(--ultra-d)}
+.btn.ok{background:var(--lo);border-color:var(--lo);color:#fff}.btn.no{background:#fff;border-color:var(--hi);color:var(--hi)}.btn:disabled{opacity:.4;cursor:not-allowed}
+#msg{color:var(--hi);font-weight:600;font-size:14px;padding:0 18px 12px;min-height:8px}
+.rail h2{font:600 15px var(--sans);margin:0 0 10px;display:flex;gap:8px;align-items:center}
+.sum{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.chip{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px}
+.chip.high{background:var(--hib);color:var(--hi)}.chip.medium{background:var(--mdb);color:var(--md)}.chip.low{background:var(--lob);color:var(--lo)}.chip.ai{background:#e6e9f7;color:var(--ultra-d)}
+.note{background:var(--paper);border:1px solid var(--line);border-left:5px solid var(--md);border-radius:12px;padding:14px 16px;margin-bottom:12px;scroll-margin-top:90px}
+.note.high{border-left-color:var(--hi)}.note.low{border-left-color:var(--lo)}.note.done{opacity:.5}.note.flash{animation:fl 1.2s}
+@keyframes fl{0%{box-shadow:0 0 0 4px rgba(52,70,240,.35)}100%{box-shadow:none}}
+.note h3{margin:0 0 4px;font-size:14.5px;text-transform:capitalize}.q{font:italic 400 16px var(--serif);background:#f1f3fb;padding:6px 10px;border-radius:8px;margin:6px 0;display:block}
+.ev{font-size:13px;color:var(--ink2);display:flex;gap:6px;margin-top:6px}.ev b{color:var(--ink)}
+.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.row input{flex:1;min-width:130px}
+input[type=text]{font:500 14px var(--sans);padding:8px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+.empty{border:1.5px dashed var(--line);border-radius:14px;padding:26px;color:var(--ink2);background:rgba(255,255,255,.5)}
+.empty b{display:block;color:var(--ink);margin-bottom:4px;font-size:16px}
+.dock{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:12px 28px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;box-shadow:0 -10px 30px -20px rgba(15,23,48,.5);z-index:5}
+.dock input{flex:1;min-width:200px}.dock small{color:var(--ink2);font-weight:600}
+details{max-width:1240px;margin:0 auto;padding:0 28px 24px}summary{cursor:pointer;font-weight:700;padding:10px 0}
+pre{white-space:pre-wrap;background:var(--ink);color:#cdd6f3;padding:16px;border-radius:12px;font:12.5px/1.6 ui-monospace,Consolas,monospace;margin:8px 0 0}
+.cm{margin:8px 0 0;font-size:14px;color:var(--ink2)}
+</style><link rel="stylesheet" href="/static/premium-overrides.css"></head><body>
+<header class="top"><div class="brand"><span class="logo"></span>BrandGuard AI</div>
+<div class="track" id="track" aria-label="Review progress"><div>Draft</div><div>Checked</div><div>In review</div><div>Decision</div></div>
+<div class="roles" role="group" aria-label="Demo role"><button data-r="creator" class="on">Creator</button><button data-r="reviewer">Reviewer</button><button data-r="approver">Approver</button></div></header>
+<div class="wrap"><div>
+<div class="lead" style="margin-bottom:18px"><h1>Check it before it goes live.</h1><p>Paste a draft. BrandGuard compares it with <b id="brand">the brand profile</b>'s approved rules and facts, shows the evidence for every flag, and leaves the final decision to a person.</p></div>
+<div class="sheet"><div class="sheet-h"><b>Draft</b><span class="pill" id="pill">Not checked</span><span class="sp"></span><span id="rv" style="color:var(--ink2);font-size:13px;font-weight:600"></span><button class="btn" id="edit" hidden>Edit text</button></div>
+<div id="docbox"><textarea id="txt" aria-label="Draft text">Our cold brew is the No. 1 drink in the country! Only $3.99 today, so cheap and guaranteed results. Try it now!</textarea></div>
+<div id="msg" role="alert"></div>
+<div class="bar"><button class="btn pri" id="run">Check draft</button><button class="btn" id="rev" hidden>Re-check edited text</button><button class="btn" id="send" hidden>Send to review</button><span class="sp"></span><small style="color:var(--ink2);font-size:12.5px" id="aiS"></small></div></div>
+<div class="cm" id="comments"></div></div>
+<aside class="rail"><h2>Findings and evidence</h2><div class="sum" id="sum"></div>
+<div id="findings"><div class="empty"><b>Nothing checked yet.</b>Every flag will appear here with the exact rule or approved fact behind it, a suggested fix, and a way to dismiss it with a reason.</div></div></aside></div>
+<details><summary>Audit trail and insights</summary><div class="cm" id="ins"></div><pre id="audit">No activity yet.</pre></details>
+<div class="dock" role="group" aria-label="Review decision"><small id="who">Creator</small><input type="text" id="cmt" placeholder="Comment, or override rationale when approving with open high-severity findings" aria-label="Comment or rationale">
+<button class="btn" id="bc">Comment</button><button class="btn" id="bch">Request changes</button><button class="btn ok" id="ba">Approve</button><button class="btn no" id="br">Reject</button></div>
+<script>
+let role="creator",D=null,edit=false;const $=i=>document.getElementById(i);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+async function api(p,m="GET",b){const r=await fetch("/api"+p,{method:m,headers:{"Content-Type":"application/json","X-Role":role},body:b?JSON.stringify(b):undefined});
+ const j=await r.json();if(!r.ok){$("msg").textContent=j.detail||"Something went wrong.";throw 0}$("msg").textContent="";return j}
+document.querySelectorAll(".roles button").forEach(b=>b.onclick=()=>{role=b.dataset.r;document.querySelectorAll(".roles button").forEach(x=>x.classList.toggle("on",x===b));$("who").textContent="Acting as "+role;$("msg").textContent="";perm()});
+function perm(){const c=role==="creator",rv=role!=="creator",ap=role==="approver";
+ $("run").disabled=!c;$("rev").disabled=!c;$("send").disabled=!c;$("bc").disabled=!rv;$("bch").disabled=!rv;$("ba").disabled=!ap;$("br").disabled=!ap}
+function annotate(t,fs){const ms=[];fs.filter(f=>f.state==="open"&&f.text!=="(whole post)").forEach(f=>{const i=t.indexOf(f.text);if(i>=0)ms.push({i,e:i+f.text.length,f})});
+ ms.sort((a,b)=>a.i-b.i);let o="",p=0;for(const m of ms){if(m.i<p)continue;o+=esc(t.slice(p,m.i))+`<mark class="${m.f.severity}" data-f="${m.f.id}" tabindex="0" title="${esc(m.f.category.replace(/_/g," "))}">${esc(t.slice(m.i,m.e))}</mark>`;p=m.e}return o+esc(t.slice(p))}
+function focusNote(id){const n=document.getElementById("n"+id);if(n){n.scrollIntoView({block:"center"});n.classList.remove("flash");void n.offsetWidth;n.classList.add("flash")}}
+function draw(){if(!D)return;const t=D.revisions.at(-1).text,s=D.status;
+ $("pill").textContent=s;$("pill").className="pill "+s.split(" ")[0];$("rv").textContent="Revision "+D.revisions.length;
+ const locked=["In Review","Approved","Rejected"].includes(s);$("edit").hidden=locked;
+ if(edit&&!locked){$("docbox").innerHTML=`<textarea id="txt" aria-label="Draft text">${esc(t)}</textarea>`}
+ else{$("docbox").innerHTML=`<div class="doc" id="doc">${annotate(t,D.findings)}</div>`;document.querySelectorAll("mark").forEach(m=>{m.onclick=()=>focusNote(m.dataset.f);m.onkeydown=e=>e.key==="Enter"&&focusNote(m.dataset.f)})}
+ $("run").hidden=true;$("rev").hidden=!(edit&&!locked);$("send").hidden=locked||s==="Approved";
+ const idx=["Approved","Rejected"].includes(s)?3:["In Review","Changes Requested"].includes(s)?2:1;
+ [...$("track").children].forEach((c,i)=>c.className=i<idx?"done":i===idx?(s==="Rejected"||s==="Incomplete Review"?"bad":"on"):"");
+ $("aiS").textContent=D.ai_status==="skipped"?"AI check not configured · rule checks only":D.ai_status==="failed"?"AI service unavailable · re-check to retry, nothing is approved":D.ai_status==="ok"?"AI-assisted check completed":"";
+ const open=D.findings.filter(f=>f.state==="open"),cnt=k=>open.filter(f=>f.severity===k).length;
+ $("sum").innerHTML=["high","medium","low"].map(k=>`<span class="chip ${k}">${cnt(k)} ${k} open</span>`).join("")+(D.decision?`<span class="chip ai">${D.decision.decision.replace("_"," ")} by ${D.decision.by}</span>`:"");
+ $("findings").innerHTML=D.findings.length?D.findings.map(f=>`<div class="note ${f.severity} ${f.state!=="open"?"done":""}" id="n${f.id}"><h3>${esc(f.category.replace(/_/g," "))} · ${f.severity} · ${f.origin==="ai"?"AI-assisted":"rule"}</h3>
+ <span class="q">${esc(f.text)}</span><div>${esc(f.explanation)}</div><div class="ev"><b>Evidence</b> ${esc(f.source)}</div><div class="ev"><b>Suggested</b> ${esc(f.fix)}</div>
+ ${f.state==="open"?`<div class="row">${f.replacement!==null?`<button class="btn pri" onclick="act('${f.id}','accept')">Apply fix</button>`:""}<input type="text" id="r${f.id}" placeholder="Reason to dismiss" aria-label="Reason to dismiss"><button class="btn" onclick="act('${f.id}','dismiss',document.getElementById('r${f.id}').value)">Dismiss</button></div>`:`<div class="ev"><b>${f.state}</b> ${esc(f.reason||"")}</div>`}</div>`).join(""):`<div class="empty"><b>No issues found.</b>The draft passed every configured rule.</div>`;
+ $("comments").innerHTML=D.comments.map(c=>`<div><b>${c.role}:</b> ${esc(c.comment)}</div>`).join("")+(D.decision&&D.decision.rationale?`<div><b>Rationale:</b> ${esc(D.decision.rationale)}</div>`:"")}
+async function side(){const[a,i]=await Promise.all([api("/audit"),api("/insights")]);
+ $("audit").textContent=a.length?a.map(x=>`${x.t}  ${x.role.padEnd(9)} ${x.action}${x.note?" ("+x.note+")":""}`).join("\n"):"No activity yet.";
+ $("ins").textContent=`Drafts checked: ${i.drafts}. Findings by category: ${Object.entries(i.by_category).map(([k,v])=>k.replace(/_/g," ")+" "+v).join(", ")||"none yet"}.`}
+async function go(f){try{D=await f();draw();await side()}catch(e){}}
+window.act=(id,a,r)=>go(()=>api(`/drafts/${D.id}/findings/${id}`,"POST",{action:a,reason:r||""}));
+$("run").onclick=()=>{edit=false;go(()=>api("/drafts","POST",{text:$("txt").value}))};
+$("edit").onclick=()=>{edit=true;draw()};
+$("rev").onclick=()=>{const v=$("txt").value;edit=false;go(()=>api(`/drafts/${D.id}/revise`,"POST",{text:v}))};
+$("send").onclick=()=>D&&go(()=>api(`/drafts/${D.id}/submit`,"POST"));
+$("bc").onclick=()=>D&&go(()=>api(`/drafts/${D.id}/comment`,"POST",{comment:$("cmt").value}));
+[["bch","request_changes"],["ba","approve"],["br","reject"]].forEach(([b,d])=>$(b).onclick=()=>D&&go(()=>api(`/drafts/${D.id}/decision`,"POST",{decision:d,rationale:$("cmt").value})));
+fetch("/api/profile").then(r=>r.json()).then(p=>$("brand").textContent=p.name+" (synthetic demo profile)");perm();side();
+</script></body></html>
